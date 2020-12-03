@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>相册列表</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+    <h2>相册列表</h2>
+        <h4>欢迎您的大驾光临~ <i style="color: #868686">{$user.user_name}</i> </h4>
+<!--    上传-->
+    <form action="{:url('Image/save')}" method="post" enctype="multipart/form-data">
+        <div class="form-row align-items-center">
+            <div class="form-group">
+                <label for="exampleInputEmail1">图片标题：</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="width: 300px" name="title"><br>
+            </div>
+            <div class="col-auto my-1">
+                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="class">
+                    {volist name="class" id="val"}
+                    <option value="{$val.class_id}">{$val.class_name}</option>
+                    {/volist}
+                </select>
+            </div>
+            <div>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1" name="img">
+            </div>
+            <button type="submit" class="btn btn-primary" >上传</button>
+        </div>
+    </form>
+<!--    查询-->
+    <form action="{:url('Image/read')}" method="post">
+        <div class="col-auto my-1">
+            <input type="text" name="search" placeholder="图片描述，多个关键字更加准确">
+            <button type="submit" class="btn btn-primary" >查询</button>
+        </div>
+    </form>
+    <table class="table">
+        <tr>
+            <td>排序</td>
+            <td>标题</td>
+            <td>类别</td>
+            <td>图片</td>
+        </tr>
+        {volist name="img" id="val"}
+        <tr>
+            <td>{$val.pid}</td>
+            <td>{$val.title}</td>
+            <td>{$val.class}</td>
+            <td>
+                <img src="/uploads/{$val.img}" alt="" width="100px" height="100px">
+            </td>
+        </tr>
+        {/volist}
+        <tr><td>{$img->render()}</td></tr>
+    </table>
+</body>
+</html>
